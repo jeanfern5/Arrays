@@ -39,7 +39,7 @@ Array *create_array (int capacity) {
  *****/
 void destroy_array(Array *arr) {
   // Free all elements
-  for (int i = 0; i< arr->count; i++)
+  for (int i = 0; i < arr->count; i++)
   {
     free(arr->elements[i]);
   }
@@ -58,13 +58,21 @@ void destroy_array(Array *arr) {
 void resize_array(Array *arr) {
 
   // Create a new element storage with double capacity
+  int doubleCapacity = arr->capacity * 2;
+  char **newElements = realloc(arr->elements, doubleCapacity * sizeof(char *));
 
   // Copy elements into the new storage
+  for (int i = 0; i < arr->count; i++)
+  {
+    newElements[i] = arr->elements[i];
+  }
   
   // Free the old elements array (but NOT the strings they point to)
+  free(arr->elements);
 
   // Update the elements and capacity to new values
-
+  arr->elements = newElements;
+  arr->capacity = doubleCapacity;
 }
 
 
@@ -99,18 +107,23 @@ char *arr_read(Array *arr, int index) {
 void arr_insert(Array *arr, char *element, int index) {
 
   // Throw an error if the index is greater than the current count
-  if (arr_read(arr, index)){
-
+  if (index > arr->count)
+  {
+    fprintf(stderr, "IndexError: Index %d is out of range\n", index);
+    exit(1);
   }
 
   // Resize the array if the number of elements is over capacity
+  if (arr->count == (arr->capacity))
+  {
+
+  }
 
   // Move every element after the insert index to the right one position
 
   // Copy the element and add it to the array
 
   // Increment count by 1
-
 }
 
 /*****
@@ -120,9 +133,9 @@ void arr_append(Array *arr, char *element) {
 
   // Resize the array if the number of elements is over capacity
   // or throw an error if resize isn't implemented yet.
-  if (arr->count == (arr->capacity - 1))
+  if (arr->count == (arr->capacity))
   {
-    fprintf(stderr, "OverCapacityError: Capacity is full and resize is not yet implemented.\n");
+    resize_array(arr);
   }
   // Copy the element and add it to the end of the array
   arr->elements[arr->count] = element;
