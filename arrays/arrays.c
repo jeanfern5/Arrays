@@ -38,9 +38,14 @@ Array *create_array (int capacity) {
  * Free memory for an array and all of its stored elements
  *****/
 void destroy_array(Array *arr) {
-
   // Free all elements
+  for (int i = 0; i< arr->count; i++)
+  {
+    free(arr->elements[i]);
+  }
+
   free(arr->elements);
+  
   // Free array
   free(arr);
 
@@ -81,6 +86,7 @@ char *arr_read(Array *arr, int index) {
   if (index > arr->count)
   {
     fprintf(stderr, "IndexError: Index %d is out of range\n", index);
+    exit(1);
   }
   // Otherwise, return the element at the given index
   return arr->elements[index];
@@ -93,6 +99,9 @@ char *arr_read(Array *arr, int index) {
 void arr_insert(Array *arr, char *element, int index) {
 
   // Throw an error if the index is greater than the current count
+  if (arr_read(arr, index)){
+
+  }
 
   // Resize the array if the number of elements is over capacity
 
