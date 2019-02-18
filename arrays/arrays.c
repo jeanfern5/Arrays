@@ -27,7 +27,6 @@ Array *create_array (int capacity) {
 
 }
 
-
 /*****
  * Free memory for an array and all of its stored elements
  *****/
