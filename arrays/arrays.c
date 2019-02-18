@@ -9,6 +9,7 @@ typedef struct Array {
   char **elements;  // The string elements contained in the array
 } Array;
 
+
 /************************************
  *
  *   CREATE, DESTROY, RESIZE FUNCTIONS
@@ -26,6 +27,7 @@ Array *create_array (int capacity) {
   // Allocate memory for elements
 
 }
+
 
 /*****
  * Free memory for an array and all of its stored elements
