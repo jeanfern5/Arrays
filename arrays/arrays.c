@@ -9,7 +9,6 @@ typedef struct Array {
   char **elements;  // The string elements contained in the array
 } Array;
 
-
 /************************************
  *
  *   CREATE, DESTROY, RESIZE FUNCTIONS
