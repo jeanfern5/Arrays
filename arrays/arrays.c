@@ -113,8 +113,7 @@ void arr_append(Array *arr, char *element) {
   // or throw an error if resize isn't implemented yet.
   if (arr->count == (arr->capacity - 1))
   {
-    arr->capacity *= 2;
-    arr->elements = realloc(arr->elements, arr->capacity * sizeof(char *));
+    fprintf(stderr, "OverCapacityError: Capacity is full and resize is not yet implemented.\n");
   }
   // Copy the element and add it to the end of the array
   arr->elements[arr->count] = element;
