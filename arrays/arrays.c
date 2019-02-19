@@ -28,7 +28,7 @@ Array *create_array (int capacity) {
   arr->count = 0;
 
   // Allocate memory for elements
-  arr->elements = malloc(capacity * sizeof(char *));
+  arr->elements = calloc(capacity, sizeof(char *));
 
   return arr;
 }
@@ -59,7 +59,7 @@ void resize_array(Array *arr) {
 
   // Create a new element storage with double capacity
   int doubleCapacity = arr->capacity * 2;
-  char **newElements = realloc(arr->elements, doubleCapacity * sizeof(char *));
+  char **newElements = calloc(doubleCapacity, sizeof(char *));
 
   // Copy elements into the new storage
   for (int i = 0; i < arr->count; i++)
@@ -114,16 +114,24 @@ void arr_insert(Array *arr, char *element, int index) {
   }
 
   // Resize the array if the number of elements is over capacity
-  if (arr->count == (arr->capacity))
+  if (arr->count >= arr->capacity)
   {
-
+    resize_array(arr);
+    // fprintf(stderr, "OverCapacityError: INSERT Capacity is full and resize is not yet implemented.\n");
+    // exit(2);
   }
 
   // Move every element after the insert index to the right one position
+  for (int i = arr->count; i > index; i--)
+  {
+    arr->elements[i] = arr->elements[i - 1];
+  }
 
   // Copy the element and add it to the array
+  arr->elements[index] = element;
 
   // Increment count by 1
+  arr->count++;
 }
 
 /*****
@@ -133,9 +141,11 @@ void arr_append(Array *arr, char *element) {
 
   // Resize the array if the number of elements is over capacity
   // or throw an error if resize isn't implemented yet.
-  if (arr->count == (arr->capacity))
+  if (arr->count >= arr->capacity)
   {
     resize_array(arr);
+    // fprintf(stderr, "OverCapacityError: APPEND Capacity is full and resize is not yet implemented.\n");
+    // exit(2);
   }
   // Copy the element and add it to the end of the array
   arr->elements[arr->count] = element;
@@ -184,15 +194,15 @@ int main(void)
 
   Array *arr = create_array(1);
 
-  arr_insert(arr, "STRING1", 0);
-  arr_append(arr, "STRING4");
-  arr_insert(arr, "STRING2", 0);
-  arr_insert(arr, "STRING3", 1);
+  arr_insert(arr, "STRING1", 0); //[STRING1]
+  arr_append(arr, "STRING4"); //[STRING1, STRING4]
+  arr_insert(arr, "STRING2", 0); //[STRING2, STRING1, STRING4]
+  arr_insert(arr, "STRING3", 1); //[STRING2, STRING3, STRING1, STRING4]
   arr_print(arr);
-  arr_remove(arr, "STRING3");
-  arr_print(arr);
+  // arr_remove(arr, "STRING3");
+  // arr_print(arr);
 
-  destroy_array(arr);
+  // destroy_array(arr);
 
   return 0;
 }
