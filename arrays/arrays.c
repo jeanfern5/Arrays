@@ -165,10 +165,23 @@ void arr_remove(Array *arr, char *element) {
 
   // Search for the first occurence of the element and remove it.
   // Don't forget to free its memory!
-
+  int removed_index = 0;
+  for (int i = 0; i < arr->count; i++)
+  {
+    if ((strcmp(arr->elements[i], element)) == 0)
+    {
+      removed_index = i; //at index where desired element gets removed to be use as starting point
+      free(arr->elements[i]);
+    }
+  }
   // Shift over every element after the removed element to the left one position
+  for (int i = removed_index; i < arr->count; i++)
+  {
+    arr->elements[i] = arr->elements[i + 1];
+  }
 
   // Decrement count by 1
+  arr->count--;
 
 }
 
@@ -199,8 +212,8 @@ int main(void)
   arr_insert(arr, "STRING2", 0); //[STRING2, STRING1, STRING4]
   arr_insert(arr, "STRING3", 1); //[STRING2, STRING3, STRING1, STRING4]
   arr_print(arr);
-  // arr_remove(arr, "STRING3");
-  // arr_print(arr);
+  arr_remove(arr, "STRING3"); //[STRING2, STRING1, STRING4]
+  arr_print(arr);
 
   // destroy_array(arr);
 
